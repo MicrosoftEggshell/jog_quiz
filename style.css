@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.question {
+    padding: 50px 100px;
+    background-color: darkgray;
+    margin: 20px 20px 50px 20px;
+
+    font-size: 30px;
+}
+
+.ans {
+    background-color: darkgray;
+    margin: 5px 20px;
+    padding: 20px 100px;
+    cursor: pointer;
+    
+    font-size: 20px;
+}
+
+.nextBtn {
+    background-color: aqua;
+    margin: 5px 20px;
+    padding: 20px 100px;
+    cursor: pointer;
+
+    font-size: 30px;
+    letter-spacing: 5px;
+}
+
+.good-ans {
+    background-color: green;
+}
+
+.bad-ans {
+    background-color: red;
+}
+
+.empty-ans {
+    background-color: darkgray;
+}

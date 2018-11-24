@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container" class="container">
+        <div id="stats" class="stats">
+            <span id="num-good-ans"></span> / 
+            <span id="num-ans"></span><br>
+            <span id="num-percentage"></span>%
+        </div>
+        <div id="question" class="question"></div>
+        <div id="ans-a" class="ans" onclick="isGoodAns('a')"></div>
+        <div id="ans-b" class="ans" onclick="isGoodAns('b')"></div>
+        <div id="ans-c" class="ans" onclick="isGoodAns('c')"></div>
+        <div id="ans-d" class="ans" onclick="isGoodAns('d')"></div>
+        <button id="nextBtn" class="nextBtn" onclick="next()">Következő</button>
+    </div>
+    <script 
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+    <script defer src="quiz.js"></script>
+</body>
+</html>
