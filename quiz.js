@@ -36,7 +36,6 @@ document.addEventListener('keydown', event => {
   });
 
 isGoodAns = answer => {
-    console.log("#ans-"+curr_question.answer)
     if(!curr_answered) {
         changeBgClass("#ans-"+answer, "bad-ans")
         changeBgClass("#ans-"+curr_question.answer, "good-ans")
@@ -70,6 +69,11 @@ displayCurrQuestion = () => {
 
 changeNextBtnState = new_state => {
     $("#nextBtn").prop("disabled", new_state)
+
+    if(new_state)
+        $("#nextBtn").addClass("nextBtn-disabled")
+    else 
+        $("#nextBtn").removeClass("nextBtn-disabled")
 }
 
 changeBgClass = (elem, new_class) => {
@@ -77,7 +81,7 @@ changeBgClass = (elem, new_class) => {
 }
 
 init_question = () => {
-    if(data != {}) {
+    if(!isEmpty(data)) {
         curr_question_id = randomPropertyKey(data)
         curr_question = data[curr_question_id]
         delete data[curr_question_id]
@@ -97,17 +101,27 @@ init_question = () => {
     }
 }
 
+randomPropertyKey = obj => {
+    let keys = Object.keys(obj)
+    return keys[ keys.length * Math.random() << 0]
+}
+
+isEmpty = map => {
+    for(var key in map) {
+        if (map.hasOwnProperty(key)) return false
+    }
+
+    return true;
+}
+
+
+
+
 $.get("https://cors.io/?https://pastebin.com/raw/gw6NDUh3", json => {
     
     og_data = JSON.parse(json)
     data = og_data
-    console.log(data)
 
     init_question()    
 
 })
-
-randomPropertyKey = obj => {
-    let keys = Object.keys(obj)
-    return keys[ keys.length * Math.random() << 0]
-};
