@@ -7,7 +7,22 @@
 </head>
 <body>
     <div id="container" class="container">
-        <div id="quiz" class="quiz">
+        <div id="endscreen" class="endscreen hidden">
+            <table id="end-good"></table>
+            <table id="end-bad"></table>
+        </div>
+
+        <div id="start" class="start">
+            <form id="start-questions" action="">
+                <button>Start quiz</button>
+                <button type="button" onclick="checkAll(true)">Check all</button>
+                <button type="button" onclick="checkAll(false)">Uncheck all</button>
+                <br>
+            </form>
+        </div>
+
+        <div id="quiz" class="quiz hidden">
+
             <div id="stats" class="stats">
                 Jó/Össz: <span id="num-good-ans"></span> / 
                 <span id="num-ans"></span>
@@ -19,10 +34,6 @@
             <div id="ans-c" class="ans" onclick="isGoodAns('c')"></div>
             <div id="ans-d" class="ans" onclick="isGoodAns('d')"></div>
             <button id="nextBtn" class="nextBtn nextBtn-disabled" onclick="next()">Következő</button>
-        </div>
-
-        <div id="stats" class="stats">
-
         </div>
     </div>
 

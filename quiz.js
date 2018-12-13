@@ -33,7 +33,8 @@ document.addEventListener('keydown', event => {
         default:
             break;
     }
-  });
+});
+
 
 isGoodAns = answer => {
     if(!curr_answered) {
@@ -97,7 +98,7 @@ init_question = () => {
         changeBgClass("#ans-d", "empty-ans")
     }
     else {
-        alert("The end")
+        init_stats()
     }
 }
 
@@ -114,6 +115,58 @@ isEmpty = map => {
     return true;
 }
 
+initStartQuestions = (keys) => {
+    for(let key in data) {
+        document.getElementById("start-questions").innerHTML += `<input type="checkbox" name="${key}" class="sq-checks" checked>${key}  ${data[key].question}<br>`
+    }
+}
+
+checkAll = e => {
+    $(".sq-checks").attr("checked", e)
+}
+
+$("#start-questions").submit(function( event ) {
+    let values = $(this).serializeArray()
+    let keys = []
+    
+    let questions = {}
+    values.forEach(e => {
+        questions[e["name"]] = data[e["name"]]
+    });
+    
+    data = questions
+    
+    $("#start").addClass("hidden")
+    $("#quiz").removeClass("hidden")
+    init_question()
+    
+    event.preventDefault()
+})
+
+init_stats = () => {
+    $("#quiz").addClass("hidden")
+    $("#endscreen").removeClass("hidden")
+
+    let good = []
+    let bad = []
+
+    for(let key in answered_questions) {
+        let a = answered_questions[key].answer == answered_questions[key].my_answer
+        if(a) good.push(answered_questions[key])
+        else bad.push({"key": key, "ans": answered_questions[key]})
+    }
+
+    good.forEach(e => {
+        $("#end-good").append(`<tr><td>${e.key}</td><td>${e.ans.question}</td></tr>`)
+    })
+
+    bad.forEach(e => {
+        $("#end-bad").append(`<tr><td>${e.key}</td><td>${e.ans.question}</td></tr>`)
+    })
+}
+
+
+
 
 
 
@@ -122,6 +175,7 @@ $.get("https://cors.io/?https://pastebin.com/raw/gw6NDUh3", json => {
     og_data = JSON.parse(json)
     data = og_data
 
-    init_question()    
+    initStartQuestions()
+    // init_question()    
 
 })
