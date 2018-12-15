@@ -313,14 +313,9 @@ load_og_state = id => {
 
 
 
-$.get("https://cors.io/?https://pastebin.com/raw/gw6NDUh3", json => {
-    
-    og_data = JSON.parse(json)
 
-    save_og_states()
+og_data = JSON.parse(quiz_data)
 
-    init_quiz()
+save_og_states()
 
-    // init_question()    
-
-})
+init_quiz()
