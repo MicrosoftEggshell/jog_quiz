@@ -7,6 +7,10 @@
 </head>
 <body>
     <div id="container" class="container">
+        <div id="menu" class="menu">
+            <button type="button" onclick="init_quiz()">Restart Quiz</button>
+            <button type="button" onclick="reset_cookie()">Reset data</button>
+        </div>
         <div id="endscreen" class="endscreen hidden">
             <div id="endscreen-stats" class="stats">
                 Jó/Össz: <span id="end-num-good-ans"></span> / 
@@ -24,10 +28,11 @@
         </div>
 
         <div id="start" class="start">
-            <form id="start-questions" action="">
+            <form id="start-questions" action="javascript:void(0);">
                 <button>Start quiz</button>
                 <button type="button" onclick="checkAll(true)">Check all</button>
                 <button type="button" onclick="checkAll(false)">Uncheck all</button>
+                <button type="button" onclick="reset_cookie()">Reset data</button>
                 <br>
             </form>
         </div>

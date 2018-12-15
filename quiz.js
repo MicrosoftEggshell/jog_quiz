@@ -12,6 +12,10 @@ let num_ans = 0
 
 let quiz_complete = false
 
+let og_endscreen = ""
+let og_start = ""
+let og_quiz = ""
+
 document.addEventListener('keydown', event => {
     const keyName = event.key;
     switch (keyName) {
@@ -36,9 +40,9 @@ document.addEventListener('keydown', event => {
             break
     
         default:
-            break;
+            break
     }
-});
+})
 
 
 isGoodAns = answer => {
@@ -121,37 +125,72 @@ isEmpty = map => {
     return true;
 }
 
-initStartQuestions = (keys) => {
-    for(let key in data) {
-        document.getElementById("start-questions").innerHTML += `<input type="checkbox" name="${key}" class="sq-checks" checked>${key}  ${data[key].question}<br>`
+initStartQuestions = () => {
+    $("#start").removeClass("hidden")
+    $("#endscreen").addClass("hidden")
+    $("#quiz").addClass("hidden")
+
+    /*document.getElementById("start").innerHTML = `<form id="start-questions" action="javascript:void(0);">
+            <button>Start quiz</button>
+            <button type="button" onclick="checkAll(true)">Check all</button>
+            <button type="button" onclick="checkAll(false)">Uncheck all</button>
+            <button type="button" onclick="reset_cookie()">Reset data</button>
+            <br>
+        </form>`*/
+
+    let categories = new Set() 
+
+    for(let key in h_data) {
+        categories.add(h_data[key].bad)
     }
+
+    Array.from(categories).sort((a,b)=>{return b-a}).forEach(i => {
+        document.getElementById("start-questions").innerHTML += `<div id="bad-${i}"><h3>Missed ${i} times <button type="button" onclick="checkAllInside(true, '#bad-${i}')">Check all</button><button type="button" onclick="checkAllInside(false, '#bad-${i}')">Uncheck all</button></h3></div>`
+    })
+
+    for(let key in og_data) {
+        document.getElementById(`bad-${h_data[key].bad}`).innerHTML += `<input type="checkbox" name="${key}" class="sq-checks" checked>${key}  ${og_data[key].question}<br>`
+    }
+
+    $('.sq-checks').click(e => {
+        $(e.target).attr('checked', e.target.checked)
+    })
+
+    $("#start-questions").submit(function( event ) {
+        let values = $(this).serializeArray()
+        let keys = []
+        
+        let questions = {}
+        values.forEach(e => {
+            questions[e["name"]] = data[e["name"]]
+        });
+        
+        data = questions
+        
+        $("#start").addClass("hidden")
+        $("#endscreen").addClass("hidden")
+        $("#quiz").removeClass("hidden")
+        init_question()
+        
+        event.preventDefault()
+    })
 }
+
 
 checkAll = e => {
     $(".sq-checks").attr("checked", e)
 }
 
-$("#start-questions").submit(function( event ) {
-    let values = $(this).serializeArray()
-    let keys = []
-    
-    let questions = {}
-    values.forEach(e => {
-        questions[e["name"]] = data[e["name"]]
-    });
-    
-    data = questions
-    
-    $("#start").addClass("hidden")
-    $("#quiz").removeClass("hidden")
-    init_question()
-    
-    event.preventDefault()
-})
+checkAllInside = (e,id) => {
+    $(id + " .sq-checks").attr("checked", e)
+}
+
+
 
 init_stats = () => {
     // Hiding the quiz and making the stat-screen visible
     $("#quiz").addClass("hidden")
+    $("#start").addClass("hidden")
     $("#endscreen").removeClass("hidden")
 
     // Separating the good and bad answers
@@ -169,14 +208,14 @@ init_stats = () => {
     // Printing and saving the good and bad answers
     good.forEach(e => {
         $("#end-good").append(`<tr><td>${e.key}</td><td>${e.ans.question}</td></tr>`)
-        if(h_data[e.key].good) h_data[e.key].good = 1
-        else h_data[e.key].good += 1
+        if(h_data[e.key].good) h_data[e.key].good += 1
+        else h_data[e.key].good = 1
     })
 
     bad.forEach(e => {
         $("#end-bad").append(`<tr><td>${e.key}</td><td>${e.ans.question}</td></tr>`)
-        if(h_data[e.key].bad) h_data[e.key].bad = 1
-        else h_data[e.key].bad += 1
+        if(h_data[e.key].bad) h_data[e.key].bad += 1
+        else h_data[e.key].bad = 1
     })
 
     // Displaying the overall statistics
@@ -188,18 +227,22 @@ init_stats = () => {
     write_cookie()
 }
 
+reset_h_data = () => {
+    h_data = {}
+
+    let keyes = Object.keys(og_data)
+    keyes.forEach(key => {
+        h_data[key] = {good: 0, bad: 0}
+    })
+}
+
 load_cookie = () => {
     let h_cookie_data = document.cookie.replace(/(?:(?:^|.*;\s*)h_data\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
-    console.log(h_cookie_data)
-
     if(h_cookie_data != "")
-        h_data = JSON.stringify(h_cookie_data)
+        h_data = JSON.parse(h_cookie_data)
     else {  
-        let keyes = Object.keys(og_data)
-        keyes.forEach(key => {
-            h_data[key] = {good: 0, bad: 0}
-        })
+       reset_h_data()
     }
 }
 
@@ -208,16 +251,76 @@ write_cookie = () => {
     document.cookie = `h_data=${cookie_data}; expires=${new Date(1000000000000000).toUTCString()}`;
 }
 
+reset_cookie = () => {
+    if(window.confirm("Biztosan ki akarod törölni a mentett adatokat?")) {
+        reset_h_data()
+        write_cookie()
+
+        initStartQuestions()
+    }
+}
+
+init_quiz_data = () => {
+    data = og_data
+    curr_answered = false
+    answered_questions = {}
+    num_good_ans = 0
+    num_ans = 0
+    quiz_complete = false
+
+    load_cookie()
+}
+
+init_quiz = () => {
+    init_quiz_data()
+
+    load_og_state("all")
+
+    initStartQuestions()
+}
+
+save_og_states = () => {
+    og_start = document.getElementById("start").innerHTML
+    og_endscreen = document.getElementById("endscreen").innerHTML
+    og_quiz = document.getElementById("quiz").innerHTML
+}
+
+load_og_state = id => {
+    switch (id) {
+        case "og_start":
+            document.getElementById("start").innerHTML = og_start
+            break
+
+        case "og_endscreen":
+            document.getElementById("endscreen").innerHTML = og_endscreen
+            break
+
+        case "og_quiz":
+            document.getElementById("quiz").innerHTML = og_quiz
+            break
+        
+        case "all":
+            document.getElementById("start").innerHTML = og_start
+            document.getElementById("endscreen").innerHTML = og_endscreen
+            document.getElementById("quiz").innerHTML = og_quiz
+            break
+
+        default:
+            break
+    }
+}
+
 
 
 
 $.get("https://cors.io/?https://pastebin.com/raw/gw6NDUh3", json => {
     
     og_data = JSON.parse(json)
-    data = og_data
 
-    load_cookie()
-    initStartQuestions()
+    save_og_states()
+
+    init_quiz()
+
     // init_question()    
 
 })
