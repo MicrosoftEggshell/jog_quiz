@@ -1,11 +1,16 @@
 let data
 let og_data
+
+let h_data = {}
+
 let curr_question
 let curr_question_id
 let curr_answered = false
 let answered_questions = {}
 let num_good_ans = 0
 let num_ans = 0
+
+let quiz_complete = false
 
 document.addEventListener('keydown', event => {
     const keyName = event.key;
@@ -97,7 +102,8 @@ init_question = () => {
         changeBgClass("#ans-c", "empty-ans")
         changeBgClass("#ans-d", "empty-ans")
     }
-    else {
+    else if(!quiz_complete){
+        quiz_complete = true
         init_stats()
     }
 }
@@ -144,28 +150,63 @@ $("#start-questions").submit(function( event ) {
 })
 
 init_stats = () => {
+    // Hiding the quiz and making the stat-screen visible
     $("#quiz").addClass("hidden")
     $("#endscreen").removeClass("hidden")
 
+    // Separating the good and bad answers
     let good = []
     let bad = []
 
     for(let key in answered_questions) {
         let a = answered_questions[key].answer == answered_questions[key].my_answer
-        if(a) good.push(answered_questions[key])
-        else bad.push({"key": key, "ans": answered_questions[key]})
+        let value = {key: key, ans: answered_questions[key]}
+
+        if(a) good.push(value)
+        else bad.push(value)
     }
 
+    // Printing and saving the good and bad answers
     good.forEach(e => {
         $("#end-good").append(`<tr><td>${e.key}</td><td>${e.ans.question}</td></tr>`)
+        if(h_data[e.key].good) h_data[e.key].good = 1
+        else h_data[e.key].good += 1
     })
 
     bad.forEach(e => {
         $("#end-bad").append(`<tr><td>${e.key}</td><td>${e.ans.question}</td></tr>`)
+        if(h_data[e.key].bad) h_data[e.key].bad = 1
+        else h_data[e.key].bad += 1
     })
+
+    // Displaying the overall statistics
+    document.getElementById("end-num-good-ans").innerHTML = num_good_ans
+    document.getElementById("end-num-ans").innerHTML = num_ans
+    document.getElementById("end-num-percentage").innerHTML = num_good_ans / num_ans * 100
+
+    // Writing the historical data to cookie
+    write_cookie()
 }
 
+load_cookie = () => {
+    let h_cookie_data = document.cookie.replace(/(?:(?:^|.*;\s*)h_data\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
+    console.log(h_cookie_data)
+
+    if(h_cookie_data != "")
+        h_data = JSON.stringify(h_cookie_data)
+    else {  
+        let keyes = Object.keys(og_data)
+        keyes.forEach(key => {
+            h_data[key] = {good: 0, bad: 0}
+        })
+    }
+}
+
+write_cookie = () => {
+    let cookie_data = JSON.stringify(h_data)
+    document.cookie = `h_data=${cookie_data}; expires=${new Date(1000000000000000).toUTCString()}`;
+}
 
 
 
@@ -175,6 +216,7 @@ $.get("https://cors.io/?https://pastebin.com/raw/gw6NDUh3", json => {
     og_data = JSON.parse(json)
     data = og_data
 
+    load_cookie()
     initStartQuestions()
     // init_question()    
 
