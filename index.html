@@ -28,6 +28,10 @@
         </div>
 
         <div id="start" class="start">
+            <input type="text" id="from-text" placeholder="From value">
+            <input type="text" id="to-text" placegolder="to value">
+            <button onclick="checkRangeOnClick(true)">Check in range</button>
+            <button onclick="checkRangeOnClick(false)">Uncheck in range</button>
             <form id="start-questions" action="javascript:void(0);">
                 <button>Start quiz</button>
                 <button type="button" onclick="checkAll(true)">Check all</button>

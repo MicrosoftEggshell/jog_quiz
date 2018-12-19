@@ -149,7 +149,7 @@ initStartQuestions = () => {
     })
 
     for(let key in og_data) {
-        document.getElementById(`bad-${h_data[key].bad}`).innerHTML += `<input type="checkbox" name="${key}" class="sq-checks" checked>${key}  ${og_data[key].question}<br>`
+        document.getElementById(`bad-${h_data[key].bad}`).innerHTML += `<input type="checkbox" id="check-for-${key}" name="${key}" class="sq-checks" checked>${key}  ${og_data[key].question}<br>`
     }
 
     $('.sq-checks').click(e => {
@@ -183,6 +183,19 @@ checkAll = e => {
 
 checkAllInside = (e,id) => {
     $(id + " .sq-checks").attr("checked", e)
+}
+
+checkRange = (from, to, e) => {
+    for(let i = from; i <= to; i += 1) {
+        $("#check-for-" + i).attr("checked", e)
+    }
+}
+
+checkRangeOnClick = e => {
+    let from = parseInt(document.getElementById("from-text").value, 10)
+    let to = parseInt(document.getElementById("to-text").value, 10)
+
+    checkRange(from, to, e)
 }
 
 
