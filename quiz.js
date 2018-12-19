@@ -47,8 +47,9 @@ document.addEventListener('keydown', event => {
 
 isGoodAns = answer => {
     if(!curr_answered) {
-        changeBgClass("#ans-"+answer, "bad-ans")
-        changeBgClass("#ans-"+curr_question.answer, "good-ans")
+        changeBgClass("#ans-"+answer, "btn-danger")
+        changeBgClass("#ans-"+curr_question.answer, "btn-success")
+
 
         curr_answered = true
         changeNextBtnState(false)
@@ -80,14 +81,17 @@ displayCurrQuestion = () => {
 changeNextBtnState = new_state => {
     $("#nextBtn").prop("disabled", new_state)
 
-    if(new_state)
-        $("#nextBtn").addClass("nextBtn-disabled")
-    else 
-        $("#nextBtn").removeClass("nextBtn-disabled")
+    if(new_state) {
+        $("#nextBtn").attr("disabled", true)
+        $("#nextBtn").toggleClass("btn-secondary").toggleClass("btn-info")
+    } else { 
+        $("#nextBtn").attr("disabled", false)
+        $("#nextBtn").toggleClass("btn-secondary").toggleClass("btn-info")
+    }
 }
 
 changeBgClass = (elem, new_class) => {
-    $(elem).removeClass("empty-ans good-ans bad-ans").addClass(new_class)
+    $(elem).removeClass("btn-outline-secondary btn-success btn-danger").addClass(new_class)
 }
 
 init_question = () => {
@@ -101,10 +105,10 @@ init_question = () => {
         changeNextBtnState(true)
         curr_answered = false
 
-        changeBgClass("#ans-a", "empty-ans")
-        changeBgClass("#ans-b", "empty-ans")
-        changeBgClass("#ans-c", "empty-ans")
-        changeBgClass("#ans-d", "empty-ans")
+        changeBgClass("#ans-a", "btn-outline-secondary")
+        changeBgClass("#ans-b", "btn-outline-secondary")
+        changeBgClass("#ans-c", "btn-outline-secondary")
+        changeBgClass("#ans-d", "btn-outline-secondary")
     }
     else if(!quiz_complete){
         quiz_complete = true
@@ -130,14 +134,6 @@ initStartQuestions = () => {
     $("#endscreen").addClass("hidden")
     $("#quiz").addClass("hidden")
 
-    /*document.getElementById("start").innerHTML = `<form id="start-questions" action="javascript:void(0);">
-            <button>Start quiz</button>
-            <button type="button" onclick="checkAll(true)">Check all</button>
-            <button type="button" onclick="checkAll(false)">Uncheck all</button>
-            <button type="button" onclick="reset_cookie()">Reset data</button>
-            <br>
-        </form>`*/
-
     let categories = new Set() 
 
     for(let key in h_data) {
@@ -145,7 +141,7 @@ initStartQuestions = () => {
     }
 
     Array.from(categories).sort((a,b)=>{return b-a}).forEach(i => {
-        document.getElementById("start-questions").innerHTML += `<div id="bad-${i}"><h3>Missed ${i} times <button type="button" onclick="checkAllInside(true, '#bad-${i}')">Check all</button><button type="button" onclick="checkAllInside(false, '#bad-${i}')">Uncheck all</button></h3></div>`
+        document.getElementById("start-questions").innerHTML += `<div id="bad-${i}"><h3>${i}x elhibázva <button type="button" class="btn btn-outline-info" onclick="checkAllInside(true, '#bad-${i}')"><i class="fas fa-check"></i> Mindet ezen bellül</button><button type="button" class="btn btn-outline-secondary" onclick="checkAllInside(false, '#bad-${i}')"><i class="fas fa-times"></i> Mindet ezen bellül</button></h3></div>`
     })
 
     for(let key in og_data) {
