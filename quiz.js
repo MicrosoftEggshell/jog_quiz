@@ -137,7 +137,7 @@ initStartQuestions = () => {
     let categories = new Set() 
 
     for(let key in h_data) {
-        categories.add(h_data[key].bad)
+        categories.add(h_data[key].b)
     }
 
     Array.from(categories).sort((a,b)=>{return b-a}).forEach(i => {
@@ -145,7 +145,7 @@ initStartQuestions = () => {
     })
 
     for(let key in og_data) {
-        document.getElementById(`bad-${h_data[key].bad}`).innerHTML += `<input type="checkbox" id="check-for-${key}" name="${key}" class="sq-checks" checked>${key}  ${og_data[key].question}<br>`
+        document.getElementById(`bad-${h_data[key].b}`).innerHTML += `<input type="checkbox" id="check-for-${key}" name="${key}" class="sq-checks" checked>${key}  ${og_data[key].question}<br>`
     }
 
     $('.sq-checks').click(e => {
@@ -217,14 +217,14 @@ init_stats = () => {
     // Printing and saving the good and bad answers
     good.forEach(e => {
         $("#end-good").append(`<tr><td>${e.key}</td><td>${e.ans.question}</td></tr>`)
-        if(h_data[e.key].good) h_data[e.key].good += 1
-        else h_data[e.key].good = 1
+        if(h_data[e.key].g) h_data[e.key].g += 1
+        else h_data[e.key].g = 1
     })
 
     bad.forEach(e => {
         $("#end-bad").append(`<tr><td>${e.key}</td><td>${e.ans.question}</td></tr>`)
-        if(h_data[e.key].bad) h_data[e.key].bad += 1
-        else h_data[e.key].bad = 1
+        if(h_data[e.key].b) h_data[e.key].b += 1
+        else h_data[e.key].b = 1
     })
 
     // Displaying the overall statistics
@@ -236,19 +236,44 @@ init_stats = () => {
     write_cookie()
 }
 
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+eraseCookie = name => {   
+    document.cookie = name+'=; Max-Age=-99999999;';  
+}
+
 reset_h_data = () => {
     h_data = {}
 
     let keyes = Object.keys(og_data)
     keyes.forEach(key => {
-        h_data[key] = {good: 0, bad: 0}
+        h_data[key] = {g: 0, b: 0}
     })
 }
 
 load_cookie = () => {
-    let h_cookie_data = document.cookie.replace(/(?:(?:^|.*;\s*)h_data\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+    let h_cookie_data = getCookie("h_data")
 
-    if(h_cookie_data != "")
+    if(h_cookie_data != null)
         h_data = JSON.parse(h_cookie_data)
     else {  
        reset_h_data()
@@ -257,15 +282,59 @@ load_cookie = () => {
 
 write_cookie = () => {
     let cookie_data = JSON.stringify(h_data)
-    document.cookie = `h_data=${cookie_data}; expires=${new Date(1000000000000000).toUTCString()}`;
+    setCookie("h_data", cookie_data, 100000)
 }
 
 reset_cookie = () => {
-    if(window.confirm("Biztosan ki akarod törölni a mentett adatokat?")) {
-        reset_h_data()
-        write_cookie()
+    eraseCookie("h_data")
+    reset_h_data()
+    write_cookie()
 
-        initStartQuestions()
+    init_quiz()
+}
+
+$('#importModal').on('shown.bs.modal', function () {
+    document.getElementById("importModal-ta").value = ""
+})
+
+$('#exportModal').on('shown.bs.modal', function () {
+    document.getElementById("exportModal-ta").value = btoa(getCookie("h_data"))
+})
+
+$('#confirmModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var trigger = button.data('trigger') // Extract info from data-* attributes
+
+    var modal = $(this)
+
+    switch (trigger) {
+        case "restart":
+            modal.find('.modal-title').text("Biztosan újra akarod indítani a quizt?")
+            modal.find('.modal-footer #submit-modal').attr("onclick", "init_quiz()")
+        break;
+
+        case "reset-data":
+            modal.find('.modal-title').text("Biztosan ki akarod törölni a metett adatokat? (Ez újra fogja indítani a quiz-t)")
+            modal.find('.modal-footer #submit-modal').attr("onclick", "reset_cookie()")
+        break;
+    
+        default:
+        break;
+    }
+})
+
+import_h_data = () => {
+    if(window.confirm("Biztosan importálni akarod ezeket az adatokat? (Ez újra fogja indítani a quiz-t)")) {
+        let cookie_data = atob(document.getElementById("importModal-ta").value)
+        setCookie("h_data", cookie_data, 100000)
+        load_cookie()
+        init_quiz()
+    }
+}
+
+restart_quiz = () => {
+    if(window.confirm("Biztosan újra akarod indítani a quizt?")) {
+        init_quiz()
     }
 }
 
