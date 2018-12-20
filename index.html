@@ -47,22 +47,24 @@
 
     <div id="container" class="container col-12 col-lg-10 col-xl-6">
 
-        <div id="endscreen" class="endscreen hidden">
+        <div id="endscreen" class="quiz hidden">
             <div id="endscreen-stats" class="stats">
-                Jó/Össz: <span id="end-num-good-ans"></span> / 
-                <span id="end-num-ans"></span>
-                Százalék: <span id="end-num-percentage"></span>%
+                    <span>Jó válasz / Összes válasz: <b id="end-num-good-ans"></b> / <b id="end-num-ans"></b></span>
+                    <span>Százalék: <b id="end-num-percentage"></b><b>%</b></span>
+                    <span>Hátra levő kérdések: <b>0</b></span>
+                </div>
+
+            <button type="button" class="btn btn-success start-new-quiz" onclick="init_quiz()">Új quiz indítása</button>
+
+            <div class="stat-table">
+                <h1>Rossz válaszok:</h1>
+                <table id="end-bad"></table>
             </div>
 
-            <button type="button" class="btn btn-success start-quiz" onclick="init_quiz()">Új quiz indítása</button>
-
-            <h1>Rossz válaszok:</h1>
-            <table id="end-bad"></table>
-            
-            <hr>
-
-            <h1>Jó válaszok:</h1>
-            <table id="end-good"></table>
+            <div class="stat-table">
+                <h1>Jó válaszok:</h1>
+                <table id="end-good"></table>
+            </div>
         </div>
 
         <div id="start" class="start">

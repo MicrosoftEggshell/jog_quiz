@@ -73,7 +73,7 @@ body:before {
     width: 100px !important;
 }
 
-#stats {
+.stats {
     padding: 20px;
     margin: 20px 20px 0 20px;
 
@@ -85,8 +85,23 @@ body:before {
     border-radius: .25rem;
 }
 
+.stat-table {
+    padding: 20px;
+    margin: 0 20px 0 20px;
+}
+
+.start-new-quiz {
+    margin: 20px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    cursor: pointer;
+    white-space: normal !important;
+    
+    font-size: 1.5rem !important;
+}
+
 @media (max-width: 600px) {
-    #stats {
+    .stats {
         display: flex !important;
         flex-direction: column;
         justify-content: space-between;
