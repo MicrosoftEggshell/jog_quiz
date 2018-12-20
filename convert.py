@@ -26,7 +26,7 @@ import codecs
 
 out = {}
 
-r = requests.get("https://pastebin.com/raw/6XE8KF7S")
+r = requests.get("https://pastebin.com/raw/dd2PxN1X")
 out = json.loads(r.text)
 # print(questions)
 

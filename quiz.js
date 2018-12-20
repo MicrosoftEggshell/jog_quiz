@@ -76,7 +76,7 @@ displayCurrQuestion = () => {
     $('#ans-d').html(curr_question.d)
     $('#num-good-ans').html(num_good_ans)
     $('#num-ans').html(num_ans)
-    $('#num-percentage').html(num_good_ans / num_ans * 100)
+    $('#num-percentage').html(parseFloat(num_good_ans / num_ans * 100).toFixed(2))
     $('#num-remaining').html(Object.keys(data).length)
 }
 
