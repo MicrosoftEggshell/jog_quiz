@@ -77,6 +77,7 @@ displayCurrQuestion = () => {
     $('#num-good-ans').html(num_good_ans)
     $('#num-ans').html(num_ans)
     $('#num-percentage').html(num_good_ans / num_ans * 100)
+    $('#num-remaining').html(Object.keys(data).length)
 }
 
 changeNextBtnState = new_state => {
@@ -84,10 +85,10 @@ changeNextBtnState = new_state => {
 
     if(new_state) {
         $("#nextBtn").attr("disabled", true)
-        $("#nextBtn").toggleClass("btn-secondary").toggleClass("btn-info")
+        $("#nextBtn").addClass("btn-secondary").removeClass("btn-info")
     } else { 
         $("#nextBtn").attr("disabled", false)
-        $("#nextBtn").toggleClass("btn-secondary").toggleClass("btn-info")
+        $("#nextBtn").removeClass("btn-secondary").addClass("btn-info")
     }
 }
 
@@ -153,16 +154,11 @@ initStartQuestions = () => {
 
     for(let key in og_data) {
         document.getElementById(`bad-${h_data[key].b}`).innerHTML += `
-            <span class="form-check">
+            <label>
                 <input type="checkbox" id="check-for-${key}" name="${key}" class="sq-checks" checked>
-                <label for="${key}">${key}  ${og_data[key].question}</label>
-            </span>`
-        // document.getElementById(`bad-${h_data[key].b}`).innerHTML += `
-        //     <div class="custom-control custom-checkbox">
-        //         <input type="checkbox" class="custom-control-input sq-checks" id="check-for-${key}" name="${key}" checked="true">
-        //         <label class="custom-control-label" for="${key}">${key}  ${og_data[key].question}</label>
-        //     </div>
-        //     `
+                ${key}  ${og_data[key].question}
+            </label>
+            <br>`
     }
 
     $('.sq-checks').click(e => {

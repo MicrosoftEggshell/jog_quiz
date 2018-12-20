@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Quiz</title>
+
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
@@ -24,23 +26,26 @@
                 </li>
                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Adat módosítása
+                        Adat módosítása
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="nav-link" data-toggle="modal" data-target="#importModal">Import</a>
-                    <a class="nav-link" data-toggle="modal" data-target="#exportModal">Export</a>
-                    <div class="dropdown-divider"></div>
-                    <!-- <a class="nav-link" onclick="reset_cookie()">Adat törlése</a> -->
-                    <a class="nav-link" data-toggle="modal" data-target="#confirmModal" data-trigger="reset-data">Adatok törlése</a>
+                        <a class="nav-link" data-toggle="modal" data-target="#importModal">Import</a>
+                        <a class="nav-link" data-toggle="modal" data-target="#exportModal">Export</a>
+                        <div class="dropdown-divider"></div>
+                        <!-- <a class="nav-link" onclick="reset_cookie()">Adat törlése</a> -->
+                        <a class="nav-link" data-toggle="modal" data-target="#confirmModal" data-trigger="reset-data">Adatok törlése</a>
                     </div>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="https://github.com/Petrosz007/jog_quiz" target="_blank">Github</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <div class="col-0 col-lg-3"></div>
+    <div class="col-0 cold-lg-1 col-xl-3 divider"></div>
 
-    <div id="container" class="container col-12 col-lg-6">
+    <div id="container" class="container col-12 col-lg-10 col-xl-6">
 
         <div id="endscreen" class="endscreen hidden">
             <div id="endscreen-stats" class="stats">
@@ -61,6 +66,8 @@
         </div>
 
         <div id="start" class="start">
+            <h1 class="text-center">Jog Kvíz</h1>
+            <hr>
             <div class="form-inline">
                 Kijelölés: 
                 <button type="button" class="btn btn-outline-info checkBtn" onclick="checkAll(true)"><i class="fas fa-check"></i> Összes</button>
@@ -83,11 +90,12 @@
         <div id="quiz" class="quiz hidden">
 
             <div id="stats" class="stats">
-                Jó/Össz: <span id="num-good-ans"></span> / 
-                <span id="num-ans"></span>
-                Százalék: <span id="num-percentage"></span>%
+                <span>Jó válasz / Összes válasz: <b id="num-good-ans"></b> / <b id="num-ans"></b></span>
+                <span>Százalék: <b id="num-percentage"></b><b>%</b></span>
+                <span>Hátra levő kérdések: <b id="num-remaining"></b></span>
             </div>
-            <div id="question" class="question card"></div>
+
+            <div id="question" class="question card text-center"></div>
             <div id="ans-a" class="ans btn btn-outline-secondary" onclick="isGoodAns('a')"></div>
             <div id="ans-b" class="ans btn btn-outline-secondary" onclick="isGoodAns('b')"></div>
             <div id="ans-c" class="ans btn btn-outline-secondary" onclick="isGoodAns('c')"></div>
@@ -96,7 +104,7 @@
         </div>
     </div>
 
-    <div class="col-0 col-lg-3"></div>
+    <div class="col-0 col-lg-1 col-xl-3 divider"></div>
 
 
     <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -190,10 +198,14 @@
                         <li>Ezeket az adatokat lehet exportálni és importáli, így másik eszközön is lehet ugyan azzal az adattal használni a programot.</li>
                         <li>"Adatok törlése" esetén az összer kérdéshez tartozó jó/rossz válaszok száma nullázódik.</li>
                     </ul>
+
+                    <b>Bugos ez a szar!</b>
+                    <p>
+                        Hibákat a Github Issue-n keresztül tudok kezelni, az ott jelzett hibákról kapok értesítést és minél hamarabb tudom javítani őket.
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
-                    <button type="button" id="submit-modal" class="btn btn-primary" data-dismiss="modal">Igen</button>
                 </div>
             </div>
         </div>
