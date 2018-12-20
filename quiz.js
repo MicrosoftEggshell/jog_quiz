@@ -35,6 +35,7 @@ document.addEventListener('keydown', event => {
             isGoodAns("d")
             break
 
+        case " ":
         case "Enter":
             next()
             break
@@ -141,11 +142,27 @@ initStartQuestions = () => {
     }
 
     Array.from(categories).sort((a,b)=>{return b-a}).forEach(i => {
-        document.getElementById("start-questions").innerHTML += `<div id="bad-${i}"><h3>${i}x elhibázva <button type="button" class="btn btn-outline-info" onclick="checkAllInside(true, '#bad-${i}')"><i class="fas fa-check"></i> Mindet ezen bellül</button><button type="button" class="btn btn-outline-secondary" onclick="checkAllInside(false, '#bad-${i}')"><i class="fas fa-times"></i> Mindet ezen bellül</button></h3></div>`
+        document.getElementById("start-questions").innerHTML += `
+            <div id="bad-${i}">
+                <h3>${i}x elhibázva 
+                    <button type="button" class="btn btn-outline-info checkBtn" onclick="checkAllInside(true, '#bad-${i}')"><i class="fas fa-check"></i> Mindet ezen bellül</button>
+                    <button type="button" class="btn btn-outline-secondary checkBtn" onclick="checkAllInside(false, '#bad-${i}')"><i class="fas fa-times"></i> Mindet ezen bellül</button>
+                </h3>
+            </div>`
     })
 
     for(let key in og_data) {
-        document.getElementById(`bad-${h_data[key].b}`).innerHTML += `<input type="checkbox" id="check-for-${key}" name="${key}" class="sq-checks" checked>${key}  ${og_data[key].question}<br>`
+        document.getElementById(`bad-${h_data[key].b}`).innerHTML += `
+            <span class="form-check">
+                <input type="checkbox" id="check-for-${key}" name="${key}" class="sq-checks" checked>
+                <label for="${key}">${key}  ${og_data[key].question}</label>
+            </span>`
+        // document.getElementById(`bad-${h_data[key].b}`).innerHTML += `
+        //     <div class="custom-control custom-checkbox">
+        //         <input type="checkbox" class="custom-control-input sq-checks" id="check-for-${key}" name="${key}" checked="true">
+        //         <label class="custom-control-label" for="${key}">${key}  ${og_data[key].question}</label>
+        //     </div>
+        //     `
     }
 
     $('.sq-checks').click(e => {
@@ -298,7 +315,10 @@ $('#importModal').on('shown.bs.modal', function () {
 })
 
 $('#exportModal').on('shown.bs.modal', function () {
-    document.getElementById("exportModal-ta").value = btoa(getCookie("h_data"))
+    let export_modal = document.getElementById("exportModal-ta")
+    export_modal.value = btoa(getCookie("h_data"))
+    export_modal.focus()
+    export_modal.select()
 })
 
 $('#confirmModal').on('show.bs.modal', function (event) {
