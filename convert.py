@@ -26,11 +26,11 @@ import codecs
 
 out = {}
 
-r = requests.get("https://pastebin.com/raw/dd2PxN1X")
+r = requests.get("https://pastebin.com/raw/Y7KKHXQK")
 out = json.loads(r.text)
 # print(questions)
 
-r = requests.get("https://pastebin.com/raw/ZCNZUs0L")
+r = requests.get("https://pastebin.com/raw/4JQ3AELx")
 answers = r.text
 
 matches = re.finditer(r"([0-9]{1,})\s(\w)", answers)

@@ -1,0 +1,14 @@
+--------d     23 c A kézbesítési vélelem megdönthetõ.
+42 c) Aki cselekvõképes, az önállóan köthet szerzõdést
+c     69 d) A fentiek mindegyike lehet apport.
+c     78 a) A beltagok közös tulajdona
+
+c    101 c) 100.000 Ft
+            (jegyzet szerint)
+            d) Az eljárás illetékmentes.
+            (valóban)
+
+>>>>>>>>>>>>>d     165 a) A jótállás minden szerzõdés esetén megilleti a szolgáltatás jogosultját.
+
+-------------c      172 b) A vállalkozó a teljesítés elõtt bármikor elállhat.
+>>>>>>>>>>>>>c       173 d) A kivitelezési szerzõdés.
