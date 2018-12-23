@@ -29,6 +29,12 @@ body:before {
     padding: 0 20px;
 }
 
+#answer-options {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .question {
     padding: 2.5% 5%;
     background-color: darkgray;

@@ -74,6 +74,11 @@
             <h1 class="text-center">Jog Kvíz</h1>
             <hr>
             <div class="form-inline">
+                Válasz sorrend randomizálása (Alapból nemre van állítva): 
+                <button type="button" class="btn btn-outline-info checkBtn" onclick="changeRandomization(true)"><i class="fas fa-check"></i> Igen</button>
+                <button type="button" class="btn btn-outline-secondary checkBtn" onclick="changeRandomization(false)"><i class="fas fa-times"></i> Nem</button>
+            </div>
+            <div class="form-inline">
                 Kijelölés: 
                 <button type="button" class="btn btn-outline-info checkBtn" onclick="checkAll(true)"><i class="fas fa-check"></i> Összes</button>
                 <button type="button" class="btn btn-outline-secondary checkBtn" onclick="checkAll(false)"><i class="fas fa-times"></i> Semelyik</button>
@@ -101,10 +106,14 @@
             </div>
 
             <div id="question" class="question card text-center"></div>
-            <div id="ans-a" class="ans btn btn-outline-secondary" onclick="isGoodAns('a')"></div>
-            <div id="ans-b" class="ans btn btn-outline-secondary" onclick="isGoodAns('b')"></div>
-            <div id="ans-c" class="ans btn btn-outline-secondary" onclick="isGoodAns('c')"></div>
-            <div id="ans-d" class="ans btn btn-outline-secondary" onclick="isGoodAns('d')"></div>
+
+            <div id="answer-options">
+                <div id="ans-a" class="ans btn btn-outline-secondary answer-option" onclick="isGoodAns('a')"></div>
+                <div id="ans-b" class="ans btn btn-outline-secondary answer-option" onclick="isGoodAns('b')"></div>
+                <div id="ans-c" class="ans btn btn-outline-secondary answer-option" onclick="isGoodAns('c')"></div>
+                <div id="ans-d" class="ans btn btn-outline-secondary answer-option" onclick="isGoodAns('d')"></div>
+            </div>
+
             <button id="nextBtn" class="nextBtn btn btn-lg btn-info" onclick="next()" disabled>Következő</button>
         </div>
     </div>
@@ -178,6 +187,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <b>Nem indul a kvíz!</b>
+                    <p>
+                        Próbáld meg törölni a mentett adatokat, általában az a hibája.
+                    </p>
+
                     <b>Kérdések kiválasztása</b>
                     <ul>
                         <li>Mentett adatok alapján a kérdés választásnál csoportosítva vannak a kérdések az alapján, hogy hányszor lettek elrontva.</li>

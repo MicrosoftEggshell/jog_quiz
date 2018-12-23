@@ -11,6 +11,7 @@ let num_good_ans = 0
 let num_ans = 0
 
 let quiz_complete = false
+let shuffleQuestions = false
 
 let og_endscreen = ""
 let og_start = ""
@@ -18,21 +19,22 @@ let og_quiz = ""
 
 document.addEventListener('keydown', event => {
     const keyName = event.key;
+    const answerOptions = document.getElementById("answer-options").children
     switch (keyName) {
         case "1":
-            isGoodAns("a")
+            answerOptions[0].onclick()
             break
 
         case "2":
-            isGoodAns("b")
+            answerOptions[1].onclick()
             break
 
         case "3":
-            isGoodAns("c")
+            answerOptions[2].onclick()
             break
 
         case "4":
-            isGoodAns("d")
+            answerOptions[3].onclick()
             break
 
         case " ":
@@ -69,6 +71,14 @@ next = () => {
 }
 
 displayCurrQuestion = () => {
+    if(shuffleQuestions) {
+        const answerOptions = document.getElementById("answer-options").children
+        let shuffledAns = shuffle(answerOptions)
+
+        document.getElementById("answer-options").innerHTML = ""
+        shuffledAns.forEach(e => document.getElementById("answer-options").innerHTML += e.outerHTML)
+    }
+
     $('#question').html(curr_question.question)
     $('#ans-a').html(curr_question.a)
     $('#ans-b').html(curr_question.b)
@@ -243,7 +253,7 @@ init_stats = () => {
     // Displaying the overall statistics
     document.getElementById("end-num-good-ans").innerHTML = num_good_ans
     document.getElementById("end-num-ans").innerHTML = num_ans
-    document.getElementById("end-num-percentage").innerHTML = num_good_ans / num_ans * 100
+    document.getElementById("end-num-percentage").innerHTML = parseFloat(num_good_ans / num_ans * 100).toFixed(2)
 
     // Writing the historical data to cookie
     write_cookie()
@@ -361,6 +371,7 @@ init_quiz_data = () => {
     num_good_ans = 0
     num_ans = 0
     quiz_complete = false
+    shuffleQuestions = false
 
     load_cookie()
 }
@@ -404,7 +415,30 @@ load_og_state = id => {
     }
 }
 
+changeRandomization = e => {
+    shuffleQuestions = e
+}
 
+shuffle = obj => {
+    let array = Object.keys(obj).map(function(val) { return obj[val] })
+
+    var currentIndex = array.length, temporaryValue, randomIndex
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex)
+        currentIndex -= 1
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex]
+        array[currentIndex] = array[randomIndex]
+        array[randomIndex] = temporaryValue
+    }
+
+    return array;
+}
 
 
 
