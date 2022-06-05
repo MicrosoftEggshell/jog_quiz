@@ -162,8 +162,8 @@ initStartQuestions = () => {
                 <details id="bad-${i}" open>
                     <summary>
                         <h3>${i}x elhibázva 
-                            <button type="button" class="btn btn-outline-info checkBtn" onclick="checkAllInside(true, '#bad-${i}')"><i class="fas fa-check"></i> Mindet ezen bellül</button>
-                            <button type="button" class="btn btn-outline-secondary checkBtn" onclick="checkAllInside(false, '#bad-${i}')"><i class="fas fa-times"></i> Mindet ezen bellül</button>
+                            <button type="button" class="btn btn-outline-info checkBtn" onclick="checkAllInside(true, '#bad-${i}')"><i class="fas fa-check"></i> Mindet ezen belül</button>
+                            <button type="button" class="btn btn-outline-secondary checkBtn" onclick="checkAllInside(false, '#bad-${i}')"><i class="fas fa-times"></i> Mindet ezen belül</button>
                         </h3>
                     </summary>
                 </details>
