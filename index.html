@@ -40,7 +40,7 @@
                     </div>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="https://github.com/Petrosz007/jog_quiz" target="_blank">Github</a>
+                    <a class="nav-link" href="https://github.com/MicrosoftEggshell/jog_quiz" target="_blank">Github</a>
                 </li>
             </ul>
         </div>
@@ -59,14 +59,18 @@
 
             <button type="button" class="btn btn-success start-new-quiz" onclick="init_quiz()">Új quiz indítása</button>
 
-            <div class="stat-table">
-                <h1>Rossz válaszok:</h1>
-                <table id="end-bad"></table>
+            <div class="stats-list">
+                <details open>
+                    <summary><h2>Rossz válaszok:</h2></summary>
+                    <ol id="end-bad"></ol>
+                </details>
             </div>
 
-            <div class="stat-table">
-                <h1>Jó válaszok:</h1>
-                <table id="end-good"></table>
+            <div class="stats-list">
+                <details open>
+                    <summary><h2>Jó válaszok:</h2></summary>
+                    <ol id="end-good"></ol>
+                </details>
             </div>
         </div>
 

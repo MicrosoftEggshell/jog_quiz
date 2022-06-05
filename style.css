@@ -92,9 +92,8 @@ body:before {
     border-radius: .25rem;
 }
 
-.stat-table {
-    padding: 0;
-    margin: 0;
+summary > h2 {
+    display: inline-block;
 }
 
 .start-new-quiz {

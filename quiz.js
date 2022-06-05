@@ -170,7 +170,7 @@ initStartQuestions = () => {
         document.getElementById(`bad-${h_data[key].b}`).innerHTML += `
             <label>
                 <input type="checkbox" id="check-for-${key}" name="${key}" class="sq-checks" checked>
-                ${key}  ${og_data[key].question}
+                ${key}. ${og_data[key].question}
             </label>
             <br>`
     }
@@ -243,13 +243,13 @@ init_stats = () => {
 
     // Printing and saving the good and bad answers
     good.forEach(e => {
-        $("#end-good").append(`<tr><td>${e.key}</td><td>${e.ans.question}</td></tr>`)
+        $("#end-good").append(`<li value="${e.key}">${e.ans.question}</li>`)
         if(h_data[e.key].g) h_data[e.key].g += 1
         else h_data[e.key].g = 1
     })
 
     bad.forEach(e => {
-        $("#end-bad").append(`<tr><td>${e.key}</td><td>${e.ans.question}</td></tr>`)
+        $("#end-bad").append(`<li value="${e.key}">${e.ans.question}</li>`)
         if(h_data[e.key].b) h_data[e.key].b += 1
         else h_data[e.key].b = 1
     })
