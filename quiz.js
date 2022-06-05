@@ -71,7 +71,7 @@ next = () => {
 }
 
 displayCurrQuestion = () => {
-    if(shuffleQuestions) {
+    if(document.getElementById("random-answer-order").checked) {
         const answerOptions = document.getElementById("answer-options").children
         let shuffledAns = shuffle(answerOptions)
 
@@ -86,7 +86,8 @@ displayCurrQuestion = () => {
     $('#ans-d').html(curr_question.d)
     $('#num-good-ans').html(num_good_ans)
     $('#num-ans').html(num_ans)
-    $('#num-percentage').html(parseFloat(num_good_ans / num_ans * 100).toFixed(2))
+    if(num_ans > 0)
+        $('#num-percentage').html(parseFloat(num_good_ans / num_ans * 100).toFixed(2))
     $('#num-remaining').html(Object.keys(data).length)
 }
 
@@ -108,7 +109,10 @@ changeBgClass = (elem, new_class) => {
 
 init_question = () => {
     if(!isEmpty(data)) {
-        curr_question_id = randomPropertyKey(data)
+        if(document.getElementById("random-question-order").checked)
+            curr_question_id = randomPropertyKey(data)
+        else
+            curr_question_id = Object.keys(data)[0]
         curr_question = data[curr_question_id]
         delete data[curr_question_id]
 
@@ -146,7 +150,7 @@ initStartQuestions = () => {
     $("#endscreen").addClass("hidden")
     $("#quiz").addClass("hidden")
 
-    let categories = new Set() 
+    let categories = new Set()
 
     for(let key in h_data) {
         categories.add(h_data[key].b)
@@ -287,8 +291,8 @@ eraseCookie = name => {
 reset_h_data = () => {
     h_data = {}
 
-    let keyes = Object.keys(og_data)
-    keyes.forEach(key => {
+    let keys = Object.keys(og_data)
+    keys.forEach(key => {
         h_data[key] = {g: 0, b: 0}
     })
 }
@@ -371,7 +375,6 @@ init_quiz_data = () => {
     num_good_ans = 0
     num_ans = 0
     quiz_complete = false
-    shuffleQuestions = false
 
     load_cookie()
 }
@@ -409,14 +412,7 @@ load_og_state = id => {
             document.getElementById("endscreen").innerHTML = og_endscreen
             document.getElementById("quiz").innerHTML = og_quiz
             break
-
-        default:
-            break
     }
-}
-
-changeRandomization = e => {
-    shuffleQuestions = e
 }
 
 shuffle = obj => {
