@@ -158,18 +158,22 @@ initStartQuestions = () => {
 
     Array.from(categories).sort((a,b)=>{return b-a}).forEach(i => {
         document.getElementById("start-questions").innerHTML += `
-            <div id="bad-${i}">
-                <h3>${i}x elhibázva 
-                    <button type="button" class="btn btn-outline-info checkBtn" onclick="checkAllInside(true, '#bad-${i}')"><i class="fas fa-check"></i> Mindet ezen bellül</button>
-                    <button type="button" class="btn btn-outline-secondary checkBtn" onclick="checkAllInside(false, '#bad-${i}')"><i class="fas fa-times"></i> Mindet ezen bellül</button>
-                </h3>
+            <div>
+                <details id="bad-${i}" open>
+                    <summary>
+                        <h3>${i}x elhibázva 
+                            <button type="button" class="btn btn-outline-info checkBtn" onclick="checkAllInside(true, '#bad-${i}')"><i class="fas fa-check"></i> Mindet ezen bellül</button>
+                            <button type="button" class="btn btn-outline-secondary checkBtn" onclick="checkAllInside(false, '#bad-${i}')"><i class="fas fa-times"></i> Mindet ezen bellül</button>
+                        </h3>
+                    </summary>
+                </details>
             </div>`
     })
 
     for(let key in og_data) {
         document.getElementById(`bad-${h_data[key].b}`).innerHTML += `
-            <label>
-                <input type="checkbox" id="check-for-${key}" name="${key}" class="sq-checks" checked>
+            <input type="checkbox" id="check-for-${key}" name="${key}" class="sq-checks" checked>
+            <label for="check-for-${key}">
                 ${key}. ${og_data[key].question}
             </label>
             <br>`
