@@ -18,6 +18,9 @@ let og_start = ""
 let og_quiz = ""
 
 document.addEventListener('keydown', event => {
+    if(!document.getElementById("start").classList.contains("hidden")) // quiz not started yet
+        return
+
     const keyName = event.key;
     const answerOptions = document.getElementById("answer-options").children
     switch (keyName) {
